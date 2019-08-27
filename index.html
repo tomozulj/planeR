@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="main">
+
+<head>
+  <meta charset="utf-8">
+  <title>planeR</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="HTML, CSS, JavaScript, Angular JS, jQuery, GitHub" name="keywords">
+  <meta content="Plane tickets reservation" name="description">
+
+  <!-- Favicons -->
+  <link href="img/favicon.png" rel="icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i"
+    rel="stylesheet">
+
+  <!-- Bootstrap css -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- Angular -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+  <script src="js/controller.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+  <!--==========================
+    Header
+  ============================-->
+  <header id="header" class="header scroll-header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <h1><a href="." class="scrollto">plane<span>R</span></a></h1>
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="#hero">Home</a></li>
+          <li><a href="#about-us">How to use</a></li>
+          <li><a href="#newsletter">Reserve Tickets</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!--==========================
+    Welcome Section
+  ============================-->
+  <section id="hero" class="wow fadeIn">
+    <div class="hero-container">
+      <h2><span>R</span>eserve your plane tickets with ease</h2>
+      <img src="img/welcome_plane.png" alt="Welcome plane image">
+      <a href="#about-us" class="btn-get-started scrollto">Reserve tickets now</a>
+    </div>
+  </section><!-- #hero -->
+
+  <!--==========================
+    About Section
+  ============================-->
+  <section id="about-us" class="about-us padd-section wow fadeInUp">
+    <div class="container">
+      <div class="row justify-content-center">
+
+        <div class="col-md-5 col-lg-3">
+          <img src="img/book.png" alt="About">
+        </div>
+
+        <div class="col-md-7 col-lg-5">
+          <div class="about-content">
+
+            <h2>Plan your next trip with
+              <pre>plane</pre><span>R</span></h2>
+            <p>plane<span>R</span> is an application that allows you to find and reserve two-way IBERIA flight tickets
+              on certain dates between 2/7/2019 and 30/9/2019 for many destinations in Spain like: Barcelona, Madrid,
+              Sevilla, Malaga... How to use?
+            </p>
+
+            <ul class="list-unstyled">
+              <li><i class="fa fa-angle-right"></i>Choose start and return date</li>
+              <li><i class="fa fa-angle-right"></i>Select origin airport</li>
+              <li><i class="fa fa-angle-right"></i>Select destination airport</li>
+              <li><i class="fa fa-angle-right"></i>Select number of passengers</li>
+              <li><i class="fa fa-angle-right"></i>Click "Search Flights"</li>
+            </ul>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--==========================
+    Newsletter Section
+  ============================-->
+  <section id="newsletter" class="newsletter text-center wow fadeInUp" ng-controller="MainCtrl">
+    <div class="overlay padd-section">
+      <div class="container" style="padding-top: 25vh">
+
+        <div class="row justify-content-center">
+          <div class="col-md-9 col-lg-12">
+            <form class="form-inline" method="POST" action="" ng-submit="submit()" style="margin-bottom: 50px;">
+              <input type="text" onfocus="(this.type='date')" onfocusout="(this.type='text')" class='form-control'
+                data-language='en' placeholder="Start date" ng-model="departure" />
+              <input type="text" onfocus="(this.type='date')" onfocusout="(this.type='text')" class='form-control'
+                data-language='en' placeholder="Return date" ng-model="arrival" />
+              <input type='text' class='form-control' placeholder="Origin" ng-model="origin" autocomplete="on"
+                name="orig" />
+              <input type='text' class='form-control' placeholder="Destination" ng-model="destination" autocomplete="on"
+                name="dest" />
+              <input type='number' min='0' class='form-control' placeholder="Passengers" ng-model="passengers"
+                ng-change="checkContent()" required />
+              <button type="submit" class="btn btn-default"><i class="fa fa-location-arrow"></i>Search flights</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="result-table" ng-show="showClick" class="container" style="margin-bottom: 50px;">
+        <div class="row">
+          <div class="col-md-9 col-lg-12">
+            <div id="table-span">
+              <span>Origin: </span><strong>{{origin}}</strong>
+              <span>Destination: </span><strong>{{destination}}</strong>
+              <span>Passengers: </span><strong>{{passengers}}</strong>
+            </div>
+
+            <table id="tableflights" class="table table-hover table-dark">
+              <thead>
+                <tr>
+                  <th scope="col" class="align-middle">Departure date <br> {{departure}}</th>
+                  <th scope="col" class="align-middle">Return date <br> {{arrival}}</th>
+                  <th scope="col" class="align-middle">Business</th>
+                  <th scope="col" class="align-middle">Optima</th>
+                  <th scope="col" class="align-middle">Economy</th>
+                  <th scope="col" class="align-middle">Buy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="result in results">
+                  <td>{{result.departure}}</td>
+                  <td>{{result.arrival}} </td>
+                  <td class="bus">{{result.business}}€</td>
+                  <td class="opt">{{result.optima}}€</td>
+                  <td class="eco">{{result.economy}}€</td>
+                  <td><a href="" class="buy-ticket" data-toggle="modal" data-target="#myModal" title="Buy ticket"><i
+                        class="fa fa-shopping-cart"></i></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==========================
+    Modal
+  ============================-->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLongTitle">Choose your ticket</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="container">
+            <div class="row justify-content-center">
+
+              <div class="col-md-4 col-lg-4">
+                <h4 style="padding-left:25px;">BUSINESS</h2>
+                  <h2 id="bus" style="padding-left:25px;"></h2>
+                  <a href="." class="btn btn-primary finish-buy"><i class="fa fa-shopping-cart"></i> Buy</a>
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+                <h4 style="padding-left:25px;">OPTIMA</h4>
+                <h2 id="opt" style="padding-left:25px;"></h2>
+                <a href="." class="btn btn-primary finish-buy"><i class="fa fa-shopping-cart"></i> Buy</a>
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+                <h4>ECONOMY</h4>
+                <h2 id="eco"></h2>
+                <a href="." class="btn btn-primary finish-buy"><i class="fa fa-shopping-cart"></i> Buy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary closebtn" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--==========================
+    Footer 
+  ============================-->
+  <footer>
+    <div class="copyrights">
+      <p>&copy; Copyrights Tomislav Žulj, Ivan Anić & Tomislav Cavrić. UPCT 2019</p>
+    </div>
+  </footer>
+
+  <!-- Button Back to Top -->
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/superfish/superfish.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Jqeury script for selecting the flights and print the result prices in the modal for final purchasing -->
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+
+      $(document).on("click", "#tableflights tbody tr td a", function () { // Buy button
+
+        var $row = $(this).closest("tr");    // Find the row
+        var $bus = $row.find(".bus").text(); // Find the value
+        var $opt = $row.find(".opt").text(); // Find the value
+        var $eco = $row.find(".eco").text(); // Find the value
+
+        $("#bus").html($bus);
+        $("#opt").html($opt);
+        $("#eco").html($eco);
+
+      });
+
+      $(".finish-buy").click(function () {
+        alert("Thank you for your purchase! \u2714 \nHave a safe flight! \u2708");
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>
