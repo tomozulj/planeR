@@ -6,7 +6,11 @@ on certain dates between 2/7/2019 and 30/9/2019 for many destinations in Spain l
 Sevilla, Malaga... How to use?
 
 • Choose start and return date
+
 • Select origin airport
+
 • Select destination airport
+
 • Select number of passengers
+
 • Click "Search Flights"
