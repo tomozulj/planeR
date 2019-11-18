@@ -14,3 +14,5 @@ Sevilla, Malaga... How to use?
 • Select number of passengers
 
 • Click "Search Flights"
+
+Preview: https://planer-v2.netlify.com/
